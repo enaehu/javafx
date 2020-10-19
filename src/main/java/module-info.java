@@ -3,6 +3,7 @@ open module javafx {
   requires javafx.fxml;
   requires javafx.controls;
     requires java.sql;
+    requires com.google.gson;
 
 
     exports ehu.isad;
