@@ -24,7 +24,7 @@
          </styleClass></Button>
       <Button fx:id="kautotuBotoia2" alignment="CENTER" layoutX="330.0" layoutY="208.0" mnemonicParsing="false" onAction="#onClickEzabatu" text="Ezabatu">
          <styleClass>
-            <String fx:value="success" />
+            <String fx:value="danger" />
             <String fx:value="action-btnaction-btn" />
          </styleClass>
       </Button>

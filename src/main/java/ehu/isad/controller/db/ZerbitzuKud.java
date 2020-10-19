@@ -50,4 +50,8 @@ public class ZerbitzuKud {
         ResultSet rs = dbKudeatzaile.execSQL(eskaera);
         System.out.println("Egin");
     }
+    private void eguneratu(){
+
+
+    }
 }

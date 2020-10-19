@@ -54,19 +54,19 @@ public class KautotuKud implements Initializable {
         zk.ezabatu(zerbitzua);
 
         //comoBox-a eguneratu
-        List<String> herrialdeakList = ZerbitzuKud.getInstance().lortuZerbitzuak();
-        ObservableList<String> herrialdeak = FXCollections.observableArrayList(herrialdeakList);
-        comboZerbitzua.setItems( herrialdeak );
+        balioakEman();
 
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        balioakEman();
+    }
+
+    private void balioakEman(){
         List<String> herrialdeakList = ZerbitzuKud.getInstance().lortuZerbitzuak();
         ObservableList<String> herrialdeak = FXCollections.observableArrayList(herrialdeakList);
-
         comboZerbitzua.setItems( herrialdeak );
-
     }
 
 }
