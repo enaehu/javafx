@@ -18,8 +18,9 @@ public class KautotuKud implements Initializable {
 
     // Reference to the main application.
     private Main mainApp;
-
     private ZerbitzuKud zk = ZerbitzuKud.getInstance();
+    private ObservableList<String> zerbitzuak;
+    private List<String> zerbitzuList;
 
     @FXML
     private ComboBox comboZerbitzua;
@@ -52,21 +53,13 @@ public class KautotuKud implements Initializable {
         //Eskaera egin
         String zerbitzua = (String)comboZerbitzua.getValue();
         zk.ezabatu(zerbitzua);
-
-        //comoBox-a eguneratu
-        balioakEman();
-
+        zerbitzuak.remove(zerbitzua);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        balioakEman();
+        List<String> zerbitzuList = ZerbitzuKud.getInstance().lortuZerbitzuak();
+        zerbitzuak = FXCollections.observableArrayList(zerbitzuList);
+        comboZerbitzua.setItems( zerbitzuak );
     }
-
-    private void balioakEman(){
-        List<String> herrialdeakList = ZerbitzuKud.getInstance().lortuZerbitzuak();
-        ObservableList<String> herrialdeak = FXCollections.observableArrayList(herrialdeakList);
-        comboZerbitzua.setItems( herrialdeak );
-    }
-
 }
