@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import ehu.isad.Book;
 import ehu.isad.Details;
 import ehu.isad.Main;
+import ehu.isad.controller.db.ZerbitzuKud;
 import ehu.isad.utils.Sarea;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +23,7 @@ public class XehetasunakKud {
     private Main mainApp;
     private Gson gson;
     private Book book;
+    private ZerbitzuKud zk = ZerbitzuKud.getInstance();
 
     @FXML
     private Text izenburuText;
@@ -57,9 +59,13 @@ public class XehetasunakKud {
     public void egin(Book b) throws Exception {
         String isbn = b.getISBN();
         String izena = b.toString();
-        String is = b.getISBN();
-        book = this.getLib(isbn);
-        book.setIsbn(is);
+        book = liburuaHartu(isbn); //Liburua datu basean bilatu eta badago hartu
+
+        if(book == null){ //Liburua datu basean ez badago
+            book = this.getLib(isbn);
+        }
+
+        book.setIsbn(isbn);
         book.setTitle(izena);
         Details details = book.getDetails();
         izenburuText.setText(details.getTitle());
@@ -69,6 +75,11 @@ public class XehetasunakKud {
         Image i = createImage(url);
         irudiaField.setImage(i);
         mainApp.liburuErakutsi();
+    }
+
+    private Book liburuaHartu(String isbn) {
+        Book emaitza = zk.liburuaEskatu(isbn);
+        return emaitza;
     }
 
     private Image createImage(String url) throws IOException {

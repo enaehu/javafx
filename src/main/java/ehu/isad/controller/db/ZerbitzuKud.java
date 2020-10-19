@@ -1,5 +1,7 @@
 package ehu.isad.controller.db;
 
+import ehu.isad.Book;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,6 +10,10 @@ import java.util.List;
 public class ZerbitzuKud {
 
     private static final ZerbitzuKud instance = new ZerbitzuKud();
+
+    private String unekoEskaera;
+
+    private DBKudeatzaile dbk = DBKudeatzaile.getInstantzia();
 
     public static ZerbitzuKud getInstance() {
         return instance;
@@ -41,8 +47,19 @@ public class ZerbitzuKud {
     }
 
     public void ezabatu(String zerbitzua){
-        String eskaera = "delete from zerbitzuak.services where izena = '"+zerbitzua+"';";
+        unekoEskaera = "delete from zerbitzuak.services where izena = '"+zerbitzua+"';";
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
-        ResultSet rs = dbKudeatzaile.execSQL(eskaera);
+        ResultSet rs = dbKudeatzaile.execSQL(unekoEskaera);
+    }
+
+    public Book liburuaEskatu(String isbn) throws SQLException {
+
+        unekoEskaera = "select isbn from book where isbn ='"+isbn+"'";
+        ResultSet rs = dbk.execSQL(unekoEskaera);
+        while(rs.next()){
+            String izena = rs.getString("title");
+            String kodea = rs.getString("isbn");
+        }
+        return emaitza;
     }
 }
