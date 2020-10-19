@@ -54,6 +54,7 @@ public class ZerbitzuKud {
 
     public Book liburuaEskatu(String isbn) throws SQLException {
 
+        Book emaitza;
         unekoEskaera = "select isbn from book where isbn ='"+isbn+"'";
         ResultSet rs = dbk.execSQL(unekoEskaera);
         while(rs.next()){
