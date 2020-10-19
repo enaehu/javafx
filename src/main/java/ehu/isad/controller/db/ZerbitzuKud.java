@@ -39,4 +39,15 @@ public class ZerbitzuKud {
 
         return emaitza;
     }
+
+    public void ezabatu(String zerbitzua){
+
+        System.out.println("Sartu");
+        String eskaera = "delete from zerbitzuak.services where izena = '"+zerbitzua+"';";
+        System.out.println(eskaera);
+        DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
+        System.out.println("dbKudeatzaile");
+        ResultSet rs = dbKudeatzaile.execSQL(eskaera);
+        System.out.println("Egin");
+    }
 }
