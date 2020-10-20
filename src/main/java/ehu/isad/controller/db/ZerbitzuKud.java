@@ -1,6 +1,7 @@
 package ehu.isad.controller.db;
 
 import ehu.isad.Book;
+import ehu.isad.Details;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,21 +23,22 @@ public class ZerbitzuKud {
     private ZerbitzuKud() {
     }
 
-    public List<String> lortuZerbitzuak() {
+    public List<Book> lortuZerbitzuak() {
 
-        String query = "select id, izena from services";
+        String query = "select isbn, title from book";
+
         DBKudeatzaile dbKudeatzaile = DBKudeatzaile.getInstantzia();
         ResultSet rs = dbKudeatzaile.execSQL(query);
 
-        List<String> emaitza = new ArrayList<>();
+        List<Book> emaitza = new ArrayList<>();
         try {
             while (rs.next()) {
 
-                int kodea = rs.getInt("id");
-                String izena = rs.getString("izena");
+                String kodea = rs.getString("isbn");
+                String izena = rs.getString("title");
 
-                System.out.println(kodea + ":" + izena);
-                emaitza.add(izena);
+                Book b = new Book(kodea,izena);
+                emaitza.add(b);
 
             }
         } catch(SQLException throwables){
@@ -54,13 +56,27 @@ public class ZerbitzuKud {
 
     public Book liburuaEskatu(String isbn) throws SQLException {
 
-        Book emaitza;
+        Book emaitza = null;
         unekoEskaera = "select isbn from book where isbn ='"+isbn+"'";
         ResultSet rs = dbk.execSQL(unekoEskaera);
-        while(rs.next()){
-            String izena = rs.getString("title");
-            String kodea = rs.getString("isbn");
+        if(rs==null){
+            String izena = rs.getString("izena");
+            String is = rs.getString("isbn");
+            emaitza = new Book(izena,is);
         }
         return emaitza;
+    }
+
+    public void sartuDb(Book b){
+        String izena = b.toString();
+        String isbn = b.getISBN();
+        unekoEskaera="insert into book values('"+izena+"','"+isbn+"')";
+        dbk.execSQL(unekoEskaera);
+
+        Details d = b.getDetails();
+        int numberOfPages = d.getPages();
+        unekoEskaera = "insert into details values('"+numberOfPages+"','"+isbn+"')";
+        dbk.execSQL(unekoEskaera);
+
     }
 }

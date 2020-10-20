@@ -12,12 +12,14 @@ public class Sarea {
 
     public static Book URLlortu(String s) throws Exception {
         java.net.URL oracle = new java.net.URL("https://openlibrary.org/api/books?bibkeys="+s+"&jscmd=details&format=json");
+        System.out.println(oracle);
+        BufferedReader in = new BufferedReader(new InputStreamReader(oracle.openStream()));
 
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(oracle.openStream()));
+        String inputLine = in.readLine();
 
-        String inputLine=in.readLine();
         in.close();
+
+        System.out.println(inputLine);
 
         String[] zatiak = inputLine.split("\""+s+"\": ");
         Gson gson = new Gson();

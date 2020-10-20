@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.sql.SQLException;
 
 public class XehetasunakKud {
 
@@ -59,14 +60,17 @@ public class XehetasunakKud {
     public void egin(Book b) throws Exception {
         String isbn = b.getISBN();
         String izena = b.toString();
-        book = liburuaHartu(isbn); //Liburua datu basean bilatu eta badago hartu
+        boolean dago = liburuaHartu(isbn); //Liburua datu basean bilatu
 
-        if(book == null){ //Liburua datu basean ez badago
+        if(!dago){ //Liburua datu basean ez badago
             book = this.getLib(isbn);
+            sartudb(book);
         }
-
-        book.setIsbn(isbn);
-        book.setTitle(izena);
+        else{
+            book = getLiburua(isbn);
+        }
+        b.setIsbn(isbn);
+        b.setTitle(izena);
         Details details = book.getDetails();
         izenburuText.setText(details.getTitle());
         argitalText.setText(details.getArgitaretxea());
@@ -77,8 +81,18 @@ public class XehetasunakKud {
         mainApp.liburuErakutsi();
     }
 
-    private Book liburuaHartu(String isbn) {
+    private Boolean liburuaHartu(String isbn) throws SQLException {
         Book emaitza = zk.liburuaEskatu(isbn);
+        if(emaitza == null){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    private Book getLiburua(String s) throws SQLException {
+        Book emaitza = zk.liburuaEskatu(s);
         return emaitza;
     }
 
@@ -90,5 +104,8 @@ public class XehetasunakKud {
         }
     }
 
+    private void sartudb(Book b){
+        zk.sartuDb(b);
+    }
 }
 

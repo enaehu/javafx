@@ -2,6 +2,7 @@ package ehu.isad.controller.ui;
 
 import ehu.isad.Book;
 import ehu.isad.Main;
+import ehu.isad.controller.db.ZerbitzuKud;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,7 +11,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.util.StringConverter;
 
+import java.util.List;
+
 public class LiburuKud {
+
+    private ObservableList<Book> liburuak;
 
     @FXML
     private ComboBox comboBox;
@@ -33,6 +38,14 @@ public class LiburuKud {
 
     @FXML
     public void initialize() {
+        List<Book> liburuList = ZerbitzuKud.getInstance().lortuZerbitzuak();
+        if(liburuList == null){
+            liburuList.add(new Book("000222","Kaixo"));
+        }
+        liburuak = FXCollections.observableArrayList(liburuList);
+        comboBox.setItems(liburuak);
+
+        /*
 
         comboBox.getItems().removeAll();
         ObservableList<Book> books = FXCollections.observableArrayList();
@@ -42,6 +55,8 @@ public class LiburuKud {
                 new Book("9781491906187", "Data Algorithms")
         );
         comboBox.setItems(books);
+
+         */
 
     }
 
