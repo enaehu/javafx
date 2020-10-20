@@ -43,7 +43,7 @@ public class LiburuKud {
         liburuList = ZerbitzuKud.getInstance().lortuZerbitzuak();
         liburuak = FXCollections.observableArrayList(liburuList);
 
-
+/*
         Book b = new Book("1491910399", "R for Data Science");
         if(ZerbitzuKud.getInstance().liburuaEskatu(b.getISBN())==null){
             liburuak.add(b);
@@ -65,7 +65,7 @@ public class LiburuKud {
 
         comboBox.setItems(liburuak);
 
-
+*/
     }
 
 

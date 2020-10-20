@@ -70,7 +70,7 @@ public class ZerbitzuKud {
     public void sartuDb(Book b){
         String izena = b.toString();
         String isbn = b.getISBN();
-        unekoEskaera="insert into book values('"+izena+"','"+isbn+"')";
+        unekoEskaera="insert into openlibrary.book values('"+izena+"','"+isbn+"','"+izena+"')";
         dbk.execSQL(unekoEskaera);
 
         Details d = b.getDetails();
