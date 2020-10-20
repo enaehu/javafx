@@ -11,11 +11,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.util.StringConverter;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class LiburuKud {
 
     private ObservableList<Book> liburuak;
+    List<Book> liburuList;
 
     @FXML
     private ComboBox comboBox;
@@ -37,26 +39,32 @@ public class LiburuKud {
     }
 
     @FXML
-    public void initialize() {
-        List<Book> liburuList = ZerbitzuKud.getInstance().lortuZerbitzuak();
-        if(liburuList == null){
-            liburuList.add(new Book("000222","Kaixo"));
-        }
+    public void initialize() throws SQLException {
+        liburuList = ZerbitzuKud.getInstance().lortuZerbitzuak();
         liburuak = FXCollections.observableArrayList(liburuList);
+
+
+        Book b = new Book("1491910399", "R for Data Science");
+        if(ZerbitzuKud.getInstance().liburuaEskatu(b.getISBN())==null){
+            liburuak.add(b);
+        }
+
+        Book b2 = new Book("","");
+        b2.setTitle("Fluent Python");
+        b2.setIsbn("1491946008");
+        if(ZerbitzuKud.getInstance().liburuaEskatu(b.getISBN())==null){
+            liburuak.add(b2);
+        }
+
+        Book b1 = new Book("","");
+        b1.setTitle("Data Algorithms");
+        b1.setIsbn("9781491906187");
+        if(ZerbitzuKud.getInstance().liburuaEskatu(b.getISBN())==null){
+            liburuak.add(b1);
+        }
+
         comboBox.setItems(liburuak);
 
-        /*
-
-        comboBox.getItems().removeAll();
-        ObservableList<Book> books = FXCollections.observableArrayList();
-        books.addAll(
-                new Book("1491910399", "R for Data Science"),
-                new Book("1491946008", "Fluent Python"),
-                new Book("9781491906187", "Data Algorithms")
-        );
-        comboBox.setItems(books);
-
-         */
 
     }
 
