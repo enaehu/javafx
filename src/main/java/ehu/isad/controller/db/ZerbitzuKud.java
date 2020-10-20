@@ -75,8 +75,38 @@ public class ZerbitzuKud {
 
         Details d = b.getDetails();
         int numberOfPages = d.getPages();
-        unekoEskaera = "insert into details values('"+numberOfPages+"','"+isbn+"')";
+        String publisher = d.getArgitaretxea();
+        unekoEskaera = "insert into details values('"+numberOfPages+"','"+isbn+"','"+publisher+"')";
         dbk.execSQL(unekoEskaera);
 
+    }
+
+    public int orriakEskuratu(Book b) throws SQLException {
+        unekoEskaera= "select numberOfPages from details where isbn='"+b.getISBN()+"'";
+        ResultSet rs = dbk.execSQL(unekoEskaera);
+        int orriKop = 0;
+        while(rs.next()){
+            orriKop = rs.getInt("numberOfPages");
+        }
+        return orriKop;
+    }
+
+    public String getPublisher(Book b) {
+        unekoEskaera= "select publisher from details where isbn='"+b.getISBN()+"'";
+        ResultSet rs = dbk.execSQL(unekoEskaera);
+        String publisher = "";
+        while(true){
+            try {
+                if (!rs.next()) break;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            try {
+                publisher = rs.getString("publisher");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        return publisher;
     }
 }

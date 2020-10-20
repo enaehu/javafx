@@ -7,6 +7,11 @@ public class Details {
     Integer number_of_pages;
     String title;
 
+    public Details(int n, String s){
+        number_of_pages=n;
+        publishers[0] = s; //Suposatuko dugu publisher bakarra duela
+    }
+
     @Override
     public String toString() {
         return "Details{" +

@@ -1,6 +1,5 @@
 package ehu.isad.controller.ui;
 
-import com.google.gson.Gson;
 import ehu.isad.Book;
 import ehu.isad.Details;
 import ehu.isad.Main;
@@ -22,9 +21,8 @@ import java.sql.SQLException;
 public class XehetasunakKud {
 
     private Main mainApp;
-    private Gson gson;
-    private Book book;
-    private ZerbitzuKud zk = ZerbitzuKud.getInstance();
+
+    private final ZerbitzuKud zk = ZerbitzuKud.getInstance();
 
     @FXML
     private Text izenburuText;
@@ -58,6 +56,7 @@ public class XehetasunakKud {
     }
 
     public void egin(Book b) throws Exception {
+        Book book;
         String isbn = b.getISBN();
         String izena = b.toString();
         boolean dago = liburuaHartu(isbn); //Liburua datu basean bilatu
@@ -69,16 +68,29 @@ public class XehetasunakKud {
         else{
             book = getLiburua(isbn);
         }
-        b.setIsbn(isbn);
-        b.setTitle(izena);
-        Details details = book.getDetails();
-        izenburuText.setText(details.getTitle());
+        book.setIsbn(isbn);
+        book.setTitle(izena);
+        int orriKop = orriakEskuratu(book);
+        String publisher = getPublisherDBtik(book);
+        Details details = new Details(orriKop,publisher);
+
+
+        izenburuText.setText(book.toString());
         argitalText.setText(details.getArgitaretxea());
         orriKopText.setText(String.valueOf(details.getPages()));
         String url = book.getThumbnail_url().replace("S", "L");
         Image i = createImage(url);
         irudiaField.setImage(i);
         mainApp.liburuErakutsi();
+
+    }
+
+    private String getPublisherDBtik(Book b) {
+        return zk.getPublisher(b);
+    }
+
+    private int orriakEskuratu(Book b) throws SQLException {
+       return zk.orriakEskuratu(b);
     }
 
     private Boolean liburuaHartu(String isbn) throws SQLException {
