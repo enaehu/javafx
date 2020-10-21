@@ -76,7 +76,7 @@ public class ZerbitzuKud {
         Details d = b.getDetails();
         int numberOfPages = d.getPages();
         String publisher = d.getArgitaretxea();
-        unekoEskaera = "insert into details values('"+numberOfPages+"','"+isbn+"','"+publisher+"')";
+        unekoEskaera = "insert into details values("+numberOfPages+",'"+isbn+"','"+publisher+"');";
         dbk.execSQL(unekoEskaera);
 
     }

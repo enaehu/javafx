@@ -1,15 +1,17 @@
 package ehu.isad;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Details {
-    String[] publishers;
+    String[] publishers = new String[10];
     Integer number_of_pages;
     String title;
+    private int pubKop = 0;
 
     public Details(int n, String s){
         number_of_pages=n;
-        publishers[0] = s; //Suposatuko dugu publisher bakarra duela
+        sartuPublisher(s); //Suposatuko dugu publisher bakarra duela
     }
 
     @Override
@@ -31,5 +33,10 @@ public class Details {
 
     public Integer getPages(){
         return number_of_pages;
+    }
+
+    private void sartuPublisher(String s){
+        publishers[pubKop] = s;
+        pubKop++;
     }
 }

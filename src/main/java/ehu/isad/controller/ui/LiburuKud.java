@@ -63,9 +63,11 @@ public class LiburuKud {
             liburuak.add(b1);
         }
 
+ */
+
         comboBox.setItems(liburuak);
 
-*/
+
     }
 
 

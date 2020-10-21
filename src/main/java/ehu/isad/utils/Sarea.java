@@ -23,6 +23,9 @@ public class Sarea {
 
         String[] zatiak = inputLine.split("\""+s+"\": ");
         Gson gson = new Gson();
+        for(int i = 0;i<zatiak.length;i++){
+            System.out.println(zatiak[i]);
+        }
         Book emaitza =  gson.fromJson(zatiak[1].substring(0, zatiak[1].length()-1),  Book.class);
         return emaitza;
     }
