@@ -2,13 +2,13 @@ package ehu.isad.controller;
 
 import com.google.gson.Gson;
 import ehu.isad.Main;
-import ehu.isad.Utils.Book;
-import ehu.isad.Utils.Details;
+import ehu.isad.Book;
+import ehu.isad.Details;
 import ehu.isad.Utils.Sarea;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -18,8 +18,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ResourceBundle;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -32,6 +30,15 @@ public class DetailsKud implements Initializable {
   private Book book;
 
   @FXML
+  private Label labelIrudi;
+
+  @FXML
+  private ImageView irudiaField;
+
+  @FXML
+  private Button atzeraBotoia;
+
+  @FXML
   private Label labelIzenburua;
 
   @FXML
@@ -39,20 +46,14 @@ public class DetailsKud implements Initializable {
 
   @FXML
   private Label labelOrriKop;
+  @FXML
+  private Label lblIzenburua;
 
   @FXML
-  private Label labelIrudi;
+  private Label lblArgitaletxe;
 
   @FXML
-  private ImageView irudiaField;
-  @FXML
-  private TextField txtIzenburua;
-
-  @FXML
-  private TextField txtArgitaletxea;
-
-  @FXML
-  private TextField txtAOrriKop;
+  private Label lblOrriKop;
 
 
   @Override
@@ -62,39 +63,35 @@ public class DetailsKud implements Initializable {
 
 
   @FXML
-  /*void atzeraEgin(ActionEvent event) {
-    mainApp.liburuErakutsi();
-  }*/
+  void atzeraEgin(ActionEvent event) {
+    mainApp.mainErakutsi();
+  }
 
   public void setMainApp(Main liburuak) throws Exception {
     mainApp = liburuak;
   }
 
   public Book getLib(String s) throws Exception {
-
     Book emaitza = Sarea.URLlortu(s);
-    System.out.println("geLib:"+emaitza.getIzena() );
 
     return emaitza;
   }
 
   public void egin(Book b) throws Exception {
-    String isbn = b.getIsbn();
-    String izena = b.toString();
-    String is = b.getIsbn();
-    book = this.getLib(isbn);
-    book.setIsbn(is);
-    book.setIzena(izena);
-    Details details = book.getXehetasunak();
-    System.out.println(book.getIzena()+"hau da liburua klasearen .izena");
-    System.out.println(book.getXehetasunak().getIzenburua());
-    txtIzenburua.setText(details.getIzenburua());
-    txtArgitaletxea.setText(details.getArgitaletxea());
-    txtAOrriKop.setText(String.valueOf(details.getOrrikop()));
-    String url = book.getThumbnail_url().replace("S", "L");
+    //String izena = b.toString();
+    //String is = b.getIsbn();
+    book = getLib(b.getIsbn());
+    book.setIsbn(b.getIsbn());
+    book.setIzena(b.getIzena());
+    Details details = book.getDetails();
+    //System.out.println(book.getIzena()+"hau da liburua klasearen .izena");
+    //System.out.println(book.getXehetasunak().getIzenburua());
+    lblIzenburua.setText(details.getIzenburua());
+    lblArgitaletxe.setText(details.getArgitaletxea());
+    lblOrriKop.setText(String.valueOf(details.getOrrikop()));
+    String url = book.getThumbnail_url().replace("-S.", "-M.");
     Image i = createImage(url);
-   irudiaField.setImage(i);
-//   mainApp.liburuErakutsi();
+    irudiaField.setImage(i);
   }
 
   private Image createImage(String url) throws IOException {

@@ -1,7 +1,5 @@
 package ehu.isad;
 
-import ehu.isad.Utils.Book;
-import ehu.isad.Utils.Details;
 import ehu.isad.controller.LiburuaKud;
 import ehu.isad.controller.DetailsKud;
 import javafx.application.Application;
@@ -9,8 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class Main extends Application {
 
@@ -21,6 +17,7 @@ public class Main extends Application {
 
   private LiburuaKud liburuaKud;
   private DetailsKud detailsKud;
+  private Scene liburu,xehetasun;
 
 
   @Override
@@ -30,7 +27,7 @@ public class Main extends Application {
     pantailakKargatu();
 
     stage.setTitle("Liburuak");
-    stage.setScene(new Scene(liburuUI, 450, 275));
+    stage.setScene(liburu);
     stage.show();
   }
 
@@ -40,11 +37,13 @@ public class Main extends Application {
     liburuUI = (Parent) loaderKautotu.load();
     liburuaKud = loaderKautotu.getController();
     liburuaKud.setMainApp(this);
+    liburu = new Scene(liburuUI);
 
     FXMLLoader loaderMain = new FXMLLoader(getClass().getResource("/libXehetas.fxml"));
     detailsUI = (Parent) loaderMain.load();
     detailsKud = loaderMain.getController();
     detailsKud.setMainApp(this);
+    xehetasun = new Scene(detailsUI);
   }
 
 
@@ -52,13 +51,14 @@ public class Main extends Application {
     launch(args);
   }
 
-  public void mainErakutsi(Book s) throws Exception {
-    detailsKud.egin(s);
-    stage.setScene(new Scene(liburuUI));
+  public void mainErakutsi() {
+
+    stage.setScene(liburu);
     stage.show();
   }
-  /*public void liburuErakutsi() {
-    stage.setScene(new Scene(detailsUI));
+  public void liburuErakutsi(Book b) throws Exception {
+    detailsKud.egin(b);
+    stage.setScene(xehetasun);
     stage.show();
-  }*/
+  }
 }

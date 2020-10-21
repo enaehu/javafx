@@ -1,9 +1,11 @@
-package ehu.isad.Utils;
+package ehu.isad;
+
+import ehu.isad.Details;
 
 public class Book {
-private String izena;
+private String title;
 private String isbn;
-private Details xehetasunak;
+private Details details;
 private String thumbnail_url;
 private  String info_url;
 private  String bib_key;
@@ -11,11 +13,11 @@ private  String preview_url;
 
     @Override
     public String toString() {
-        return izena ;
+        return title ;
     }
 
-    public Book(String izena, String isbn) {
-        this.izena = izena;
+    public Book(String title, String isbn) {
+        this.title = title;
         this.isbn = isbn;
     }
 
@@ -28,14 +30,14 @@ private  String preview_url;
     }
 
     public String getIzena(){
-           return izena ;
+           return title ;
     }
     public void setIzena(String izena) {
-        this.izena = izena;
+        this.title = izena;
     }
 
-    public Details getXehetasunak() {
-        return xehetasunak;
+    public Details getDetails() {
+        return details;
     }
 
     public String getThumbnail_url() {
