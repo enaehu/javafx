@@ -58,9 +58,7 @@ public class Main extends Application {
   }
   public void liburuErakutsi(Book b) throws Exception {
     detailsKud.liburuaLortu(b.getIzena(),b.getIsbn());
-
     stage.setScene(xehetasun);
     stage.show();
-    detailsKud.egin(b);
   }
 }

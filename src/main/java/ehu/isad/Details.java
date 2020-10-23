@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Details {
     //json-a banatu zatitan
-    String[] publishers;
+    String[] publishers= new String[4];
     Integer number_of_pages;
     String title;
 

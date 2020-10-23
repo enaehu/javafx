@@ -3,9 +3,6 @@ package ehu.isad;
 import ehu.isad.Details;
 
 public class Book {
-    public void setDetails(Details details) {
-        this.details = details;
-    }
 
     private String title;
 private String isbn;
@@ -44,6 +41,9 @@ private  String preview_url;
         return details;
     }
 
+    public void setDetails(Details details) {
+        this.details = details;
+    }
     public String getThumbnail_url() {
         return thumbnail_url;
     }
