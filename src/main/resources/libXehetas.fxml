@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controller.DetailsKud">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ehu.isad.controller.ui.DetailsKud">
    <children>
       <Label fx:id="labelIzenburua" layoutX="81.0" layoutY="85.0" text="Izenburua:" />
       <Label fx:id="labelArgit" layoutX="81.0" layoutY="137.0" text="Argitaletxea:" />

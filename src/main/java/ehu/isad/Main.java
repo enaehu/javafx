@@ -1,7 +1,7 @@
 package ehu.isad;
 
-import ehu.isad.controller.LiburuaKud;
-import ehu.isad.controller.DetailsKud;
+import ehu.isad.controller.ui.LiburuaKud;
+import ehu.isad.controller.ui.DetailsKud;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -57,8 +57,10 @@ public class Main extends Application {
     stage.show();
   }
   public void liburuErakutsi(Book b) throws Exception {
-    detailsKud.egin(b);
+    detailsKud.liburuaLortu(b.getIzena(),b.getIsbn());
+
     stage.setScene(xehetasun);
     stage.show();
+    detailsKud.egin(b);
   }
 }

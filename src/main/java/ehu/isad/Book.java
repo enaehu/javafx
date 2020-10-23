@@ -3,7 +3,11 @@ package ehu.isad;
 import ehu.isad.Details;
 
 public class Book {
-private String title;
+    public void setDetails(Details details) {
+        this.details = details;
+    }
+
+    private String title;
 private String isbn;
 private Details details;
 private String thumbnail_url;

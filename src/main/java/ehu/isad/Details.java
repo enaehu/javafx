@@ -29,4 +29,11 @@ public class Details {
         return title;
     }
 
+    public void setNumber_of_pages(Integer number_of_pages) {
+        this.number_of_pages = number_of_pages;
+    }
+
+    public void setPublishers(String publishers) {
+        this.publishers[0] = publishers;
+    }
 }
