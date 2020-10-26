@@ -41,18 +41,6 @@ public class LiburuaKud implements Initializable {
     this.mainApp = main;
   }
 
- /* @FXML
-  public void onClick(ActionEvent actionEvent) {
-    System.out.println(txtErabiltzaile.getText() + ":" + txtPasahitza.getText());
-    System.out.println(comboZerbitzua.getValue());
-
-    if ("Flickr".equals(comboZerbitzua.getValue()) &&
-        "juanan".equals(txtErabiltzaile.getText()) &&
-        "pereira".equals(txtPasahitza.getText())) {
-
-      mainApp.mainErakutsi();
-    }*/
-
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     //LEHENENGO DATUAK(IZENA+ISBN) DATU BASEAN GORDE BEHAR DIRA, ESKUZ EZ SARTZEKO. COMBOBOX-EAN OBSERVABLE BAT SARTUKO DA, ZERBITZUKUD KLASEAK BUELTATU DIONA.

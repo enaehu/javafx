@@ -5,6 +5,7 @@ import ehu.isad.Main;
 import ehu.isad.Book;
 import ehu.isad.Details;
 import ehu.isad.Utils.Sarea;
+import ehu.isad.Utils.Utils;
 import ehu.isad.controller.db.ZerbitzuKud;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,14 +13,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javax.imageio.ImageIO;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.SQLOutput;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
+import javafx.scene.effect.ImageInput;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -76,48 +83,58 @@ public class DetailsKud implements Initializable {
 
   public Book getLib(String s) throws Exception {
     Book emaitza = Sarea.URLlortu(s);
-    System.out.println("DetailsKud klasean getLib"+emaitza);
     return emaitza;
   }
 
   public void egin(Book b) throws Exception {
-    //String izena = b.toString();
-    //String is = b.getIsbn();
     book = getLib(b.getIsbn());
     book.setIsbn(b.getIsbn());
     book.setIzena(b.getIzena());
     Details details = book.getDetails();
-    //System.out.println(book.getIzena()+"hau da liburua klasearen .izena");
-    //System.out.println(book.getXehetasunak().getIzenburua());
     lblIzenburua.setText(details.getIzenburua());
     lblArgitaletxe.setText(details.getArgitaletxea());
     lblOrriKop.setText(String.valueOf(details.getOrrikop()));
     String url = book.getThumbnail_url().replace("-S.", "-M.");
     Image i = createImage(url);
     irudiaField.setImage(i);
-    zb.txertatuUpdate(book.getIsbn(), details);
-  }
+    Properties properties = Utils.lortuEzarpenak();
+    File outputfile = new File(properties.getProperty("imagePath")+book.getIsbn()+".png");
+    zb.txertatuUpdate(book.getIsbn(), details,outputfile);
+    URL Url = new URL(url);
+    gordeArgazkia(Url,book.getIsbn());
 
+  }
+  private void gordeArgazkia(URL Url, String isbn) throws IOException {
+    Properties properties = Utils.lortuEzarpenak();
+    BufferedImage image = ImageIO.read(Url);
+    File outputfile = new File(properties.getProperty("imagePath")+isbn+".png");
+    ImageIO.write(image, "png", outputfile);
+  }
   private Image createImage(String url) throws IOException {
     URLConnection conn = new URL(url).openConnection();
     conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36");
     try (InputStream stream = conn.getInputStream()) {
       return new Image(stream);
     }
+
+  }
+
+  public void labelEguneraketa(String izena, String argit, int orrikop, String isbn,String url) throws IOException {
+    lblIzenburua.setText(izena);
+    lblArgitaletxe.setText(argit);
+    lblOrriKop.setText(String.valueOf(orrikop));
+    Properties properties = Utils.lortuEzarpenak();
+    Image image = new Image(new FileInputStream(properties.getProperty("imagePath")+isbn+".png"));
+    irudiaField.setImage(image);
   }
 
   public void liburuaLortu(String izena ,String isbn) throws Exception {
     Book liburua= new Book("","");
-    //System.out.println("badago(true) edo ez(false):"+zb.dbanDago(izena));
-    if (zb.dbanDago(izena)) {    //badago batubasean, beraz ez dugu internetetik hartu behar
+    if (zb.dbanDago(izena)) {    //badago datubasean, beraz ez dugu internetetik hartu behar
       //DATU BASETIK HARTU
       Book b= zb.dbtikLiburua(izena);
       //LABELAK EGUNERATU
-      lblIzenburua.setText(b.getIzena());
-      lblArgitaletxe.setText(b.getDetails().getArgitaletxea());
-      lblOrriKop.setText(String.valueOf(b.getDetails().getOrrikop()));
-      String url = book.getThumbnail_url().replace("-S.", "-M.");
-      Image i = createImage(url);
+      labelEguneraketa(b.getIzena(),b.getDetails().getArgitaletxea(),b.getDetails().getOrrikop(),b.getIsbn(), b.getThumbnail_url().replace("-S.", "-M."));
     }else{  //internetetik liburua lortu;
       liburua.setIzena(izena);
       liburua.setIsbn(isbn); //isbn-a sartzen diot, egin(liburua) metodoari deitzean liburu horrek isbn izateko eta API-tik liburua lortzean ISBN-arekin egiteko

@@ -4,7 +4,10 @@ import ehu.isad.Book;
 import ehu.isad.Details;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,51 +47,53 @@ public class ZerbitzuKud {
 
         return emaitza;
     }
-    public void txertatuUpdate(String zerbitzua, Details det){//METODO HAU ALDATU--> UPDATE
+    public void txertatuUpdate(String zerbitzua, Details det, File irudi){//METODO HAU ALDATU--> UPDATE
         String argit= det.getArgitaletxea();
         int orriKop= det.getOrrikop();
-        String irudia= det
+        //String irudia= det
         System.out.println(argit);
-        String query= "update Liburua set argitaletxea=\""+argit+"\",orrikop='"+orriKop+"', irudia where ISBN= '"+zerbitzua+"';";
+        String query= "update Liburua set argitaletxea=\""+argit+"\",orrikop='"+orriKop+"', irudia='"+irudi+"' where ISBN= '"+zerbitzua+"'";
         DBKudeatzailea kud = DBKudeatzailea.getInstantzia();
         kud.execSQL(query);
     }
-   public boolean dbanDago(String izena) throws SQLException {
+
+
+    public boolean dbanDago(String izena) throws SQLException {
         boolean badago= false;
-        String query= "select argitaletxea from Liburua where izena='"+izena+"';";
+        String query= "select argitaletxea from Liburua where izena='"+izena+"' AND argitaletxea is not null";
         DBKudeatzailea kud = DBKudeatzailea.getInstantzia();
         ResultSet rs=kud.execSQL(query);
-        if(rs.next()){
+        if(rs.next()){ //ZERGATIK rs.next() EGITEAN null BEZALA AGERTZEN DA?--> ez da berdina baliorik ez egotea edo balioa=NULL izatea, horregatik emango du rs.next()=true
             badago=true;
         }
         return badago;
     }
-
     public Book dbtikLiburua(String izena) throws SQLException {
-        String query= "select ISBN,izena,argitaletxea,orrikop from Liburua where izena='"+izena+"';";
+        String query= "select ISBN,izena,argitaletxea,orrikop,irudia from Liburua where izena='"+izena+"';";
         DBKudeatzailea kud = DBKudeatzailea.getInstantzia();
         ResultSet rs=kud.execSQL(query);
         String ize = null;
         String ISBN = null;
         String argitaletxea = null;
         int orrikop = 0;
+        String url=null;
         while(rs.next()){  //while egin zeharkatzeko
             ize = rs.getString("izena");
             ISBN = rs.getString("ISBN");
             argitaletxea = rs.getString("argitaletxea");
             orrikop= rs.getInt("orrikop");
+            url= rs.getString("irudia");
         }
         Book b = new Book(ize,ISBN);
+        b.setThumbnail_url(url);
         Details det= new Details();
         det.setNumber_of_pages(orrikop);
         det.setPublishers(argitaletxea);
         b.setDetails(det);
         return b; //liburu berria sortu dugu datu basearen datuekin
     }
-    //DATU BASEAN LIBURUAK(IZENA+ISBN) SARTZEKO METODOA SORTU ETA LIBURUAKUD KLASETIK DEITU
-    public ObservableList<Book> liburuakDBnGorde() throws SQLException {
-        //liburuak aukeratu SELECT ISBN,IZENA FROM LIBURUA
-        //rs zeharkatu eta liburu berrian sartu, liburuak sortuz eta observablelist-ean sartuz.
+
+    public ObservableList<Book> liburuakDBnGorde() throws SQLException {//rs zeharkatu eta liburu berrian sartu, liburuak sortuz eta observablelist-ean sartuz.
         DBKudeatzailea kud = DBKudeatzailea.getInstantzia();
         String query= "select ISBN,izena from Liburua";
         ResultSet rs=kud.execSQL(query);

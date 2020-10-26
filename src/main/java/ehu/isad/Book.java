@@ -44,6 +44,11 @@ private  String preview_url;
     public void setDetails(Details details) {
         this.details = details;
     }
+
+    public void setThumbnail_url(String thumbnail_url) {
+        this.thumbnail_url = thumbnail_url;
+    }
+
     public String getThumbnail_url() {
         return thumbnail_url;
     }
